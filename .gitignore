@@ -1,0 +1,37 @@
+# Android / Gradle
+*.iml
+.gradle
+.kotlin
+**/build/
+!src/**/build/
+local.properties
+captures
+.externalNativeBuild
+.cxx
+
+# Signature Android (clés de release, à ne jamais commiter)
+*.jks
+*.keystore
+key.properties
+
+# Secrets / variables d'environnement
+.env
+.env.*
+
+# iOS / Xcode
+xcuserdata
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcodeproj/project.xcworkspace/
+!*.xcworkspace/contents.xcworkspacedata
+**/xcshareddata/WorkspaceSettings.xcsettings
+
+# IDE (Android Studio / IntelliJ)
+.idea
+
+# macOS
+.DS_Store
+
+# Dépendances JS (le cas échéant)
+node_modules/
