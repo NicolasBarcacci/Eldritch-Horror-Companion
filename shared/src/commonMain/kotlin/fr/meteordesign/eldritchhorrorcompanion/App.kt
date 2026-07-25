@@ -1,12 +1,16 @@
 package fr.meteordesign.eldritchhorrorcompanion
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import dev.zacsweers.metro.createGraph
+import dev.zacsweers.metrox.viewmodel.LocalMetroViewModelFactory
 import fr.meteordesign.eldritchhorrorcompanion._di.AppGraph
 import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.theme.EhcTheme
 import fr.meteordesign.eldritchhorrorcompanion.features.core.navigation.DiceRollNavigator
@@ -16,16 +20,23 @@ import fr.meteordesign.eldritchhorrorcompanion.features.core.navigation.DiceRoll
 fun App() {
     EhcTheme {
         val appGraph = remember { createGraph<AppGraph>() }
-        val backStack = rememberNavBackStack(
-            appGraph.featuresCoreGraph.routesConfiguration,
-            DiceRollNavigator.Route,
-        )
 
-        NavDisplay(
-            backStack = backStack,
-            entryProvider = entryProvider {
-                with(appGraph.featuresCoreGraph.diceRollNavigator) { entry() }
-            },
-        )
+        CompositionLocalProvider(LocalMetroViewModelFactory provides appGraph.metroViewModelFactory) {
+            val backStack = rememberNavBackStack(
+                appGraph.featuresCoreGraph.routesConfiguration,
+                DiceRollNavigator.Route,
+            )
+
+            NavDisplay(
+                backStack = backStack,
+                entryDecorators = listOf(
+                    rememberSaveableStateHolderNavEntryDecorator(),
+                    rememberViewModelStoreNavEntryDecorator(),
+                ),
+                entryProvider = entryProvider {
+                    with(appGraph.featuresCoreGraph.diceRollNavigator) { entry() }
+                },
+            )
+        }
     }
 }

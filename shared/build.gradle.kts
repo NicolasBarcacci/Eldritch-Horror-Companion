@@ -58,9 +58,12 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+            implementation(libs.androidx.lifecycle.viewmodelNavigation3)
             implementation(libs.androidx.navigation3.runtime)
             implementation(libs.androidx.navigation3.ui)
             implementation(libs.metro.runtime)
+            implementation(libs.metro.viewmodel)
+            implementation(libs.metro.viewmodel.compose)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

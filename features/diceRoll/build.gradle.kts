@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -59,6 +60,8 @@ kotlin {
             implementation(libs.androidx.navigation3.runtime)
             implementation(libs.androidx.navigation3.ui)
             implementation(libs.metro.runtime)
+            implementation(libs.metro.viewmodel)
+            implementation(libs.metro.viewmodel.compose)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

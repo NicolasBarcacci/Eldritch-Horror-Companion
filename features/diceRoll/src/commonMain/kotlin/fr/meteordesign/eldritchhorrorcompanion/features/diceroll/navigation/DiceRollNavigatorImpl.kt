@@ -7,7 +7,7 @@ import dev.zacsweers.metro.Inject
 import fr.meteordesign.eldritchhorrorcompanion.domain.core._di.AppScope
 import fr.meteordesign.eldritchhorrorcompanion.features.core.navigation.DiceRollNavigator
 import fr.meteordesign.eldritchhorrorcompanion.features.core.navigation.DiceRollNavigator.Route
-import fr.meteordesign.eldritchhorrorcompanion.features.diceroll.DiceRollView
+import fr.meteordesign.eldritchhorrorcompanion.features.diceroll.view.DiceRollView
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 
