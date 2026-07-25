@@ -5,24 +5,29 @@ import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metrox.viewmodel.ViewModelKey
 import fr.meteordesign.eldritchhorrorcompanion.domain.core._di.AppScope
+import fr.meteordesign.eldritchhorrorcompanion.domain.diceroll.test.ResolveTestUseCase
+import fr.meteordesign.eldritchhorrorcompanion.domain.diceroll.test.Status
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
-import kotlin.random.Random
 
 @Inject
 @ViewModelKey
 @ContributesIntoMap(AppScope::class)
-class DiceRollViewModel : ViewModel() {
+class DiceRollViewModel(
+    private val resolveTestUseCase: ResolveTestUseCase,
+) : ViewModel() {
 
     private val _uiModelFlow = MutableStateFlow(DiceRollUiModel())
     val uiModelFlow: StateFlow<DiceRollUiModel>
         get() = _uiModelFlow
 
     fun onRollDiceClick() {
+        val testResult = resolveTestUseCase(diceCount = 10, status = Status.NONE)
+
         _uiModelFlow.update { uiModel ->
             uiModel.copy(
-                result = Random.nextInt(6),
+                result = testResult.successCount,
             )
         }
     }
