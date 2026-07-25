@@ -32,3 +32,4 @@ dependencyResolutionManagement {
 include(":androidApp")
 include(":shared")
 include(":designSystem:core")
+include(":features:diceRoll")
