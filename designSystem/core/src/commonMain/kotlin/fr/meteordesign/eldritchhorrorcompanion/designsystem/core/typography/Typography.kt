@@ -1,4 +1,4 @@
-package fr.meteordesign.eldritchhorrorcompanion.designsystem
+package fr.meteordesign.eldritchhorrorcompanion.designsystem.core.typography
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
