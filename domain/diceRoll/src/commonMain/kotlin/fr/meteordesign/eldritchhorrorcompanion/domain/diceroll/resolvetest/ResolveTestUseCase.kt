@@ -1,10 +1,12 @@
-package fr.meteordesign.eldritchhorrorcompanion.domain.diceroll.test
+package fr.meteordesign.eldritchhorrorcompanion.domain.diceroll.resolvetest
 
 import dev.zacsweers.metro.Inject
-import kotlin.random.Random
+import fr.meteordesign.eldritchhorrorcompanion.domain.diceroll.RandomNumberRepository
 
 @Inject
-class ResolveTestUseCase {
+class ResolveTestUseCase(
+    private val randomNumberRepository: RandomNumberRepository,
+) {
 
     operator fun invoke(
         diceCount: Int,
@@ -16,7 +18,7 @@ class ResolveTestUseCase {
             Status.CURSED -> 6
         }
 
-        val rolls = List(diceCount) { Random.nextInt(from = 1, until = 7) }
+        val rolls = List(diceCount) { randomNumberRepository.nextInt(from = 1, until = 7) }
 
         return TestResult(
             rolls = rolls,

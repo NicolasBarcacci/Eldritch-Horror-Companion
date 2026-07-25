@@ -5,8 +5,8 @@ import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metrox.viewmodel.ViewModelKey
 import fr.meteordesign.eldritchhorrorcompanion.domain.core._di.AppScope
-import fr.meteordesign.eldritchhorrorcompanion.domain.diceroll.test.ResolveTestUseCase
-import fr.meteordesign.eldritchhorrorcompanion.domain.diceroll.test.Status
+import fr.meteordesign.eldritchhorrorcompanion.domain.diceroll.resolvetest.ResolveTestUseCase
+import fr.meteordesign.eldritchhorrorcompanion.domain.diceroll.resolvetest.Status
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update

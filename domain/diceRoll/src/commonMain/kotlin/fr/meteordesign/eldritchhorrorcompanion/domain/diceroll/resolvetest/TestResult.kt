@@ -1,4 +1,4 @@
-package fr.meteordesign.eldritchhorrorcompanion.domain.diceroll.test
+package fr.meteordesign.eldritchhorrorcompanion.domain.diceroll.resolvetest
 
 data class TestResult(
     val rolls: List<Int>,
