@@ -47,6 +47,7 @@ kotlin {
         }
         commonMain.dependencies {
             implementation(projects.designSystem.core)
+            implementation(projects.domain.core)
             implementation(projects.features.diceRoll)
             implementation(projects.features.core)
             implementation(libs.compose.runtime)

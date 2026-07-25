@@ -1,5 +1,7 @@
 package fr.meteordesign.eldritchhorrorcompanion.features.diceroll
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -11,8 +13,14 @@ import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.theme.EhcTheme
 fun DiceRollContent(
     modifier: Modifier = Modifier,
 ) {
-    EhcScaffold(modifier = modifier) {
-        Text("DiceRoll")
+    EhcScaffold(
+        modifier = modifier,
+    ) { paddingValues ->
+        Box(
+            modifier.padding(paddingValues),
+        ) {
+            Text("Dice Roll")
+        }
     }
 }
 

@@ -10,19 +10,21 @@ import dev.zacsweers.metro.createGraph
 import fr.meteordesign.eldritchhorrorcompanion._di.AppGraph
 import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.theme.EhcTheme
 import fr.meteordesign.eldritchhorrorcompanion.features.core.navigation.DiceRollNavigator
-import fr.meteordesign.eldritchhorrorcompanion.features.core.navigation.routesConfiguration
 
 @Composable
 @Preview
 fun App() {
     EhcTheme {
         val appGraph = remember { createGraph<AppGraph>() }
-        val backStack = rememberNavBackStack(routesConfiguration, DiceRollNavigator.Route)
+        val backStack = rememberNavBackStack(
+            appGraph.featuresCoreGraph.routesConfiguration,
+            DiceRollNavigator.Route,
+        )
 
         NavDisplay(
             backStack = backStack,
             entryProvider = entryProvider {
-                with(appGraph.featuresDiceRollGraph.diceRollNavigator) { entry() }
+                with(appGraph.featuresCoreGraph.diceRollNavigator) { entry() }
             },
         )
     }

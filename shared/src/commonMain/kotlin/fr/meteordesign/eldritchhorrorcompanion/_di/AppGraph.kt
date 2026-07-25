@@ -1,9 +1,10 @@
 package fr.meteordesign.eldritchhorrorcompanion._di
 
 import dev.zacsweers.metro.DependencyGraph
-import fr.meteordesign.eldritchhorrorcompanion.features.diceroll._di.FeaturesDiceRollGraph
+import fr.meteordesign.eldritchhorrorcompanion.domain.core._di.AppScope
+import fr.meteordesign.eldritchhorrorcompanion.features.core._di.FeaturesCoreGraph
 
-@DependencyGraph
+@DependencyGraph(AppScope::class)
 interface AppGraph {
-    val featuresDiceRollGraph: FeaturesDiceRollGraph
+    val featuresCoreGraph: FeaturesCoreGraph
 }
