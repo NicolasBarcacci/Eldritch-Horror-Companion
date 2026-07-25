@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metrox.viewmodel.ViewModelKey
+import fr.meteordesign.eldritchhorrorcompanion.domain.core.Result
 import fr.meteordesign.eldritchhorrorcompanion.domain.core._di.AppScope
 import fr.meteordesign.eldritchhorrorcompanion.domain.diceroll.resolvetest.ResolveTestUseCase
 import fr.meteordesign.eldritchhorrorcompanion.domain.diceroll.resolvetest.Status
@@ -23,12 +24,16 @@ class DiceRollViewModel(
         get() = _uiModelFlow
 
     fun onRollDiceClick() {
-        val testResult = resolveTestUseCase(diceCount = 10, status = Status.NONE)
+        when (val result = resolveTestUseCase(diceCount = 10, status = Status.NONE)) {
+            is Result.Success -> {
+                _uiModelFlow.update { uiModel ->
+                    uiModel.copy(
+                        result = result.value.successCount,
+                    )
+                }
+            }
 
-        _uiModelFlow.update { uiModel ->
-            uiModel.copy(
-                result = testResult.successCount,
-            )
+            is Result.Failure -> Unit
         }
     }
 }
