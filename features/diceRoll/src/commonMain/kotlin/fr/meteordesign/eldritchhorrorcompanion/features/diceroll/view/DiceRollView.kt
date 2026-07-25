@@ -21,6 +21,8 @@ fun DiceRollView(
         onStatusSelected = viewModel::onStatusSelected,
         onIncrementDiceCount = viewModel::onIncrementDiceCount,
         onDecrementDiceCount = viewModel::onDecrementDiceCount,
+        onDieClick = viewModel::onDieClick,
         onRollDiceClick = viewModel::onRollDiceClick,
+        onClearClick = viewModel::onClearClick,
     )
 }

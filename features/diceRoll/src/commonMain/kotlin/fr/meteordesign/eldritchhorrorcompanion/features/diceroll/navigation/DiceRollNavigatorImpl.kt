@@ -4,7 +4,7 @@ import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import dev.zacsweers.metro.ContributesBinding
 import dev.zacsweers.metro.Inject
-import fr.meteordesign.eldritchhorrorcompanion.domain.core._di.AppScope
+import fr.meteordesign.eldritchhorrorcompanion.domain.core.utils.AppScope
 import fr.meteordesign.eldritchhorrorcompanion.features.core.navigation.DiceRollNavigator
 import fr.meteordesign.eldritchhorrorcompanion.features.core.navigation.DiceRollNavigator.Route
 import fr.meteordesign.eldritchhorrorcompanion.features.diceroll.view.DiceRollView

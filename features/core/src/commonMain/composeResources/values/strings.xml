@@ -1,0 +1,9 @@
+<resources>
+    <string name="status_cursed">Cursed</string>
+    <string name="status_none">None</string>
+    <string name="status_blessed">Blessed</string>
+    <string name="dice_roll_roll_cta">Roll</string>
+    <string name="dice_roll_reroll_cta">Reroll</string>
+    <string name="dice_roll_clear_cta">Clear</string>
+    <string name="dice_roll_successes_count">Successes: %1$d</string>
+</resources>
