@@ -1,10 +1,19 @@
-package fr.meteordesign.eldritchhorrorcompanion.designsystem
+package fr.meteordesign.eldritchhorrorcompanion.designsystem.core.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.typography.EhcTypography
+import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchGold40
+import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchGold80
+import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchGreen40
+import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchGreen80
+import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchInk
+import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchParchment
+import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchPurple40
+import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchPurple80
 
 private val EhcDarkColorScheme = darkColorScheme(
     primary = EldritchPurple80,

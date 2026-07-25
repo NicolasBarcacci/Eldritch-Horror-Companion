@@ -1,4 +1,4 @@
-package fr.meteordesign.eldritchhorrorcompanion.designsystem
+package fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color
 
 import androidx.compose.ui.graphics.Color
 
