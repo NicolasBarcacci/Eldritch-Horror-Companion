@@ -13,7 +13,7 @@ import dev.zacsweers.metro.createGraph
 import dev.zacsweers.metrox.viewmodel.LocalMetroViewModelFactory
 import fr.meteordesign.eldritchhorrorcompanion._di.AppGraph
 import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.theme.EhcTheme
-import fr.meteordesign.eldritchhorrorcompanion.features.core.navigation.DiceRollNavigator
+import fr.meteordesign.eldritchhorrorcompanion.features.core.navigation.TestResolverNavigator
 
 @Composable
 @Preview
@@ -24,7 +24,7 @@ fun App() {
         CompositionLocalProvider(LocalMetroViewModelFactory provides appGraph.metroViewModelFactory) {
             val backStack = rememberNavBackStack(
                 appGraph.featuresCoreGraph.routesConfiguration,
-                DiceRollNavigator.Route,
+                TestResolverNavigator.Route,
             )
 
             NavDisplay(
@@ -34,7 +34,7 @@ fun App() {
                     rememberViewModelStoreNavEntryDecorator(),
                 ),
                 entryProvider = entryProvider {
-                    with(appGraph.featuresCoreGraph.diceRollNavigator) { entry() }
+                    with(appGraph.featuresCoreGraph.testResolverNavigator) { entry() }
                 },
             )
         }
