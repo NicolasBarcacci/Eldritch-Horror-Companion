@@ -32,3 +32,7 @@ dependencyResolutionManagement {
 include(":androidApp")
 include(":shared")
 include(":designSystem:core")
+include(":features:core")
+include(":features:testResolver")
+include(":domain:core")
+include(":domain:testResolver")
