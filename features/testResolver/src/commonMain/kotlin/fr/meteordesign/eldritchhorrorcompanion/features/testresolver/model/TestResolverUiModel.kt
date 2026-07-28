@@ -3,7 +3,7 @@ package fr.meteordesign.eldritchhorrorcompanion.features.testresolver.model
 import eldritchhorrorcompanion.features.core.generated.resources.Res
 import eldritchhorrorcompanion.features.core.generated.resources.test_resolver_reroll_cta
 import eldritchhorrorcompanion.features.core.generated.resources.test_resolver_roll_cta
-import org.jetbrains.compose.resources.StringResource
+import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.text.EhcTextValue
 
 data class TestResolverUiModel(
     val configuration: Configuration = Configuration(
@@ -23,10 +23,10 @@ data class TestResolverUiModel(
     val rollEnabled: Boolean
         get() = testResult?.dice?.any { it.selected } ?: true
 
-    val rollLabel: StringResource
+    val rollLabel: EhcTextValue
         get() = when (testResult) {
-            null -> Res.string.test_resolver_roll_cta
-            else -> Res.string.test_resolver_reroll_cta
+            null -> EhcTextValue.StringRes(Res.string.test_resolver_roll_cta)
+            else -> EhcTextValue.StringRes(Res.string.test_resolver_reroll_cta)
         }
 
     data class Configuration(

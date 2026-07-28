@@ -52,10 +52,8 @@ import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchA
 import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchArcaneTitle
 import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchBlessedAzure
 import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchBlessedAzureSoft
-import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchBrightInk
 import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchCursedEmber
 import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchCursedEmberSoft
-import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchDisabledBackground
 import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchMutedInk
 import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchNeutralSegmentBackground
 import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchRelicGold
@@ -64,6 +62,7 @@ import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchS
 import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchTentacleRust
 import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchTileBackground
 import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchVoidBackground
+import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.button.EhcButtonPrimary
 import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.scaffold.EhcScaffold
 import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.theme.EhcTheme
 import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.utils.ehcFillMaxSize
@@ -227,13 +226,13 @@ fun TestResolverContent(
                     )
                 }
 
-                RollButton(
-                    label = stringResource(uiModel.rollLabel),
-                    enabled = uiModel.rollEnabled,
-                    onClick = onRollDiceClick,
+                EhcButtonPrimary(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 16.dp, bottom = 28.dp),
+                    text = uiModel.rollLabel,
+                    enabled = uiModel.rollEnabled,
+                    onClick = onRollDiceClick,
                 )
             }
         }
@@ -322,32 +321,6 @@ private fun ClearButton(enabled: Boolean, onClick: () -> Unit) {
         contentAlignment = Alignment.Center,
     ) {
         TrashIcon(tint = EldritchStarlight)
-    }
-}
-
-@Composable
-private fun RollButton(label: String, enabled: Boolean, onClick: () -> Unit, modifier: Modifier = Modifier) {
-    Box(
-        modifier = modifier
-            .clip(RoundedCornerShape(50))
-            .let { base ->
-                when {
-                    enabled -> base.shadow(12.dp, RoundedCornerShape(50), ambientColor = EldritchArcanePurple, spotColor = EldritchArcanePurple)
-                    else -> base
-                }
-            }
-            .background(if (enabled) EldritchArcanePurple else EldritchDisabledBackground)
-            .clickable(enabled = enabled, onClick = onClick)
-            .padding(16.dp),
-        contentAlignment = Alignment.Center,
-    ) {
-        Text(
-            text = label,
-            fontWeight = FontWeight.Bold,
-            fontSize = 16.5.sp,
-            letterSpacing = 0.5.sp,
-            color = if (enabled) EldritchBrightInk else EldritchMutedInk,
-        )
     }
 }
 

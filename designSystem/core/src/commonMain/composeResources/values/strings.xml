@@ -1,0 +1,6 @@
+<resources>
+    <string name="ehc_button_preview_primary">Primary</string>
+    <string name="ehc_button_preview_primary_disabled">Primary disabled</string>
+    <string name="ehc_button_preview_secondary">Secondary</string>
+    <string name="ehc_button_preview_secondary_disabled">Secondary disabled</string>
+</resources>

@@ -3,6 +3,7 @@ package fr.meteordesign.eldritchhorrorcompanion.features.testresolver.model
 import eldritchhorrorcompanion.features.core.generated.resources.Res
 import eldritchhorrorcompanion.features.core.generated.resources.test_resolver_reroll_cta
 import eldritchhorrorcompanion.features.core.generated.resources.test_resolver_roll_cta
+import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.text.EhcTextValue
 import fr.meteordesign.eldritchhorrorcompanion.features.testresolver.model.TestResolverUiModel.TestResult
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -87,7 +88,7 @@ class TestResolverUiModelTest {
     @Test
     fun `rollLabel is the roll cta when there is no test result`() {
         // Given
-        val expected = Res.string.test_resolver_roll_cta
+        val expected = EhcTextValue.StringRes(Res.string.test_resolver_roll_cta)
 
         // When
         val actual = TestResolverUiModel(testResult = null).rollLabel
@@ -100,7 +101,7 @@ class TestResolverUiModelTest {
     fun `rollLabel is the reroll cta when there is a test result`() {
         // Given
         val testResult = TestResult(dice = emptyList(), successCount = 0)
-        val expected = Res.string.test_resolver_reroll_cta
+        val expected = EhcTextValue.StringRes(Res.string.test_resolver_reroll_cta)
 
         // When
         val actual = TestResolverUiModel(testResult = testResult).rollLabel
