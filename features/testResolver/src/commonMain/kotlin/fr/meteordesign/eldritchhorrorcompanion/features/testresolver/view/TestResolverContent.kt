@@ -46,6 +46,24 @@ import eldritchhorrorcompanion.features.core.generated.resources.status_cursed
 import eldritchhorrorcompanion.features.core.generated.resources.status_none
 import eldritchhorrorcompanion.features.core.generated.resources.test_resolver_successes_count
 import eldritchhorrorcompanion.features.core.generated.resources.test_resolver_title
+import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchArcaneBorder
+import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchArcaneGlow
+import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchArcanePurple
+import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchArcaneTitle
+import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchBlessedAzure
+import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchBlessedAzureSoft
+import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchBrightInk
+import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchCursedEmber
+import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchCursedEmberSoft
+import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchDisabledBackground
+import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchMutedInk
+import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchNeutralSegmentBackground
+import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchRelicGold
+import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchSegmentedBackground
+import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchStarlight
+import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchTentacleRust
+import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchTileBackground
+import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchVoidBackground
 import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.scaffold.EhcScaffold
 import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.theme.EhcTheme
 import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.utils.ehcFillMaxSize
@@ -58,24 +76,6 @@ import org.jetbrains.compose.resources.stringResource
 import eldritchhorrorcompanion.designsystem.core.generated.resources.Res as DesignSystemRes
 
 private const val MaxDicePerRow = 5
-
-// Eldritch dark palette, specific to this screen's design.
-private val PageBackground = Color(0xFF14131C)
-private val GlowPurple = Color(0xFF4A2E63)
-private val Ink = Color(0xFFDEDCE6)
-private val TitlePurple = Color(0xFFC68FE6)
-private val Purple = Color(0xFF7A3FA8)
-private val CursedColor = Color(0xFFE68A5A)
-private val CursedSoft = Color(0xFF4A362C)
-private val BlessedColor = Color(0xFF7FA6D6)
-private val BlessedSoft = Color(0xFF2B3340)
-private val Gold = Color(0xFFD9B85E)
-private val Rust = Color(0xFF9C5230)
-private val BorderPurple = Purple.copy(alpha = 0.45f)
-private val Muted = Color(0xFF7C7A82)
-private val TileBackground = Color(0xFF1B1A22)
-private val SegmentedBackground = Color(0xFF18161F)
-private val NoneActiveBackground = Color(0xFF3A3840)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -94,7 +94,7 @@ fun TestResolverContent(
             modifier = Modifier
                 .padding(paddingValues)
                 .ehcFillMaxSize()
-                .background(PageBackground),
+                .background(EldritchVoidBackground),
         ) {
             Box(
                 modifier = Modifier
@@ -103,7 +103,7 @@ fun TestResolverContent(
                     .align(Alignment.TopCenter)
                     .background(
                         Brush.radialGradient(
-                            colors = listOf(GlowPurple.copy(alpha = 0.55f), Color.Transparent),
+                            colors = listOf(EldritchArcaneGlow.copy(alpha = 0.55f), Color.Transparent),
                         ),
                     ),
             )
@@ -126,7 +126,7 @@ fun TestResolverContent(
                         fontWeight = FontWeight.Bold,
                         fontSize = 17.sp,
                         letterSpacing = 2.sp,
-                        color = TitlePurple,
+                        color = EldritchArcaneTitle,
                     )
 
                     Box(
@@ -136,7 +136,7 @@ fun TestResolverContent(
                             .height(1.dp)
                             .background(
                                 Brush.horizontalGradient(
-                                    listOf(Color.Transparent, BorderPurple, Color.Transparent),
+                                    listOf(Color.Transparent, EldritchArcaneBorder, Color.Transparent),
                                 ),
                             ),
                     )
@@ -166,7 +166,7 @@ fun TestResolverContent(
                             text = "${uiModel.configuration.diceCount}",
                             fontWeight = FontWeight.Bold,
                             fontSize = 22.sp,
-                            color = Ink,
+                            color = EldritchStarlight,
                         )
                         DieIcon()
                     }
@@ -221,8 +221,8 @@ fun TestResolverContent(
                         fontWeight = FontWeight.Bold,
                         fontSize = 16.sp,
                         color = when {
-                            result != null && result.successCount > 0 -> Gold
-                            else -> Muted
+                            result != null && result.successCount > 0 -> EldritchRelicGold
+                            else -> EldritchMutedInk
                         },
                     )
                 }
@@ -256,15 +256,15 @@ private fun StatusSegmentedControl(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(50))
-            .border(1.dp, BorderPurple, RoundedCornerShape(50))
-            .background(SegmentedBackground),
+            .border(1.dp, EldritchArcaneBorder, RoundedCornerShape(50))
+            .background(EldritchSegmentedBackground),
     ) {
         statuses.forEach { status ->
             val selected = status == selectedStatus
             val (activeBackground, activeText) = when (status) {
-                Status.Cursed -> CursedSoft to CursedColor
-                Status.Blessed -> BlessedSoft to BlessedColor
-                Status.None -> NoneActiveBackground to Ink
+                Status.Cursed -> EldritchCursedEmberSoft to EldritchCursedEmber
+                Status.Blessed -> EldritchBlessedAzureSoft to EldritchBlessedAzure
+                Status.None -> EldritchNeutralSegmentBackground to EldritchStarlight
             }
 
             Box(
@@ -285,7 +285,7 @@ private fun StatusSegmentedControl(
                     ),
                     fontWeight = FontWeight.Bold,
                     fontSize = 14.5.sp,
-                    color = if (selected) activeText else Ink,
+                    color = if (selected) activeText else EldritchStarlight,
                 )
             }
         }
@@ -294,14 +294,14 @@ private fun StatusSegmentedControl(
 
 @Composable
 private fun StepperButton(text: String, enabled: Boolean, onClick: () -> Unit) {
-    val color = if (enabled) Purple else Muted
-    val border = if (enabled) BorderPurple else Muted.copy(alpha = 0.4f)
+    val color = if (enabled) EldritchArcanePurple else EldritchMutedInk
+    val border = if (enabled) EldritchArcaneBorder else EldritchMutedInk.copy(alpha = 0.4f)
 
     Box(
         modifier = Modifier
             .size(40.dp)
             .clip(CircleShape)
-            .background(TileBackground)
+            .background(EldritchTileBackground)
             .border(1.dp, border, CircleShape)
             .clickable(enabled = enabled, onClick = onClick),
         contentAlignment = Alignment.Center,
@@ -317,11 +317,11 @@ private fun ClearButton(enabled: Boolean, onClick: () -> Unit) {
             .size(34.dp)
             .alpha(if (enabled) 1f else 0f)
             .clip(CircleShape)
-            .border(1.dp, BorderPurple, CircleShape)
+            .border(1.dp, EldritchArcaneBorder, CircleShape)
             .clickable(enabled = enabled, onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
-        TrashIcon(tint = Ink)
+        TrashIcon(tint = EldritchStarlight)
     }
 }
 
@@ -332,11 +332,11 @@ private fun RollButton(label: String, enabled: Boolean, onClick: () -> Unit, mod
             .clip(RoundedCornerShape(50))
             .let { base ->
                 when {
-                    enabled -> base.shadow(12.dp, RoundedCornerShape(50), ambientColor = Purple, spotColor = Purple)
+                    enabled -> base.shadow(12.dp, RoundedCornerShape(50), ambientColor = EldritchArcanePurple, spotColor = EldritchArcanePurple)
                     else -> base
                 }
             }
-            .background(if (enabled) Purple else Color(0xFF262430))
+            .background(if (enabled) EldritchArcanePurple else EldritchDisabledBackground)
             .clickable(enabled = enabled, onClick = onClick)
             .padding(16.dp),
         contentAlignment = Alignment.Center,
@@ -346,7 +346,7 @@ private fun RollButton(label: String, enabled: Boolean, onClick: () -> Unit, mod
             fontWeight = FontWeight.Bold,
             fontSize = 16.5.sp,
             letterSpacing = 0.5.sp,
-            color = if (enabled) Color(0xFFF7F5FA) else Muted,
+            color = if (enabled) EldritchBrightInk else EldritchMutedInk,
         )
     }
 }
@@ -364,14 +364,14 @@ private fun DieFace(
             .clip(RoundedCornerShape(11.dp))
             .let { base ->
                 when {
-                    success -> base.shadow(10.dp, RoundedCornerShape(11.dp), ambientColor = Gold, spotColor = Gold)
+                    success -> base.shadow(10.dp, RoundedCornerShape(11.dp), ambientColor = EldritchRelicGold, spotColor = EldritchRelicGold)
                     else -> base
                 }
             }
-            .background(if (success) Gold else TileBackground)
+            .background(if (success) EldritchRelicGold else EldritchTileBackground)
             .border(
                 width = 1.5.dp,
-                color = if (success) Gold else BorderPurple,
+                color = if (success) EldritchRelicGold else EldritchArcaneBorder,
                 shape = RoundedCornerShape(11.dp),
             )
             .let { base ->
@@ -386,7 +386,7 @@ private fun DieFace(
             text = text,
             fontWeight = FontWeight.Bold,
             fontSize = 22.sp,
-            color = if (success) PageBackground else Ink,
+            color = if (success) EldritchVoidBackground else EldritchStarlight,
         )
 
         if (onClick != null) {
@@ -396,11 +396,11 @@ private fun DieFace(
                     .padding(bottom = 0.dp)
                     .size(19.dp)
                     .clip(CircleShape)
-                    .background(PageBackground)
-                    .border(1.5.dp, BorderPurple, CircleShape),
+                    .background(EldritchVoidBackground)
+                    .border(1.5.dp, EldritchArcaneBorder, CircleShape),
                 contentAlignment = Alignment.Center,
             ) {
-                val lockColor = if (locked) Muted else Purple
+                val lockColor = if (locked) EldritchMutedInk else EldritchArcanePurple
                 Box(modifier = Modifier.size(11.dp)) {
                     androidx.compose.material3.Icon(
                         painter = painterResource(
@@ -447,12 +447,12 @@ private fun DieIcon() {
             close()
         }
 
-        drawPath(top, color = Ink)
-        drawPath(left, color = Ink.copy(alpha = 0.8f))
-        drawPath(right, color = Ink.copy(alpha = 0.65f))
-        drawPath(top, color = PageBackground, style = Stroke(width = 0.6f))
-        drawPath(left, color = PageBackground, style = Stroke(width = 0.6f))
-        drawPath(right, color = PageBackground, style = Stroke(width = 0.6f))
+        drawPath(top, color = EldritchStarlight)
+        drawPath(left, color = EldritchStarlight.copy(alpha = 0.8f))
+        drawPath(right, color = EldritchStarlight.copy(alpha = 0.65f))
+        drawPath(top, color = EldritchVoidBackground, style = Stroke(width = 0.6f))
+        drawPath(left, color = EldritchVoidBackground, style = Stroke(width = 0.6f))
+        drawPath(right, color = EldritchVoidBackground, style = Stroke(width = 0.6f))
     }
 }
 
@@ -522,7 +522,7 @@ private fun EldritchTentacles(modifier: Modifier = Modifier, mirrored: Boolean =
         translate(left = if (mirrored) size.width else 0f, top = size.height - 30f * scaleFactor) {
             scale(scaleX = sign * scaleFactor, scaleY = scaleFactor, pivot = Offset.Zero) {
                 translate(left = -40f, top = -200f) {
-                    drawPath(path, color = Rust.copy(alpha = 0.16f))
+                    drawPath(path, color = EldritchTentacleRust.copy(alpha = 0.16f))
                 }
             }
         }
@@ -530,7 +530,7 @@ private fun EldritchTentacles(modifier: Modifier = Modifier, mirrored: Boolean =
             translate(left = if (mirrored) size.width * 0.66f else size.width * 0.34f, top = size.height - 25f * scaleFactor * 0.8f) {
                 scale(scaleX = sign * scaleFactor * 0.73f, scaleY = scaleFactor * 0.83f, pivot = Offset.Zero) {
                     translate(left = -40f, top = -200f) {
-                        drawPath(path, color = Rust.copy(alpha = 0.13f))
+                        drawPath(path, color = EldritchTentacleRust.copy(alpha = 0.13f))
                     }
                 }
             }
