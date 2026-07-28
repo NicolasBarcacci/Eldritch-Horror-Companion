@@ -40,7 +40,10 @@ fun EhcTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
-    val colorScheme = if (darkTheme) EhcDarkColorScheme else EhcLightColorScheme
+    val colorScheme = when {
+        darkTheme -> EhcDarkColorScheme
+        else -> EhcLightColorScheme
+    }
 
     MaterialTheme(
         colorScheme = colorScheme,

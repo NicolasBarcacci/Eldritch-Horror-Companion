@@ -1,5 +1,10 @@
 # Comportement de la feature TestResolver
 
+## Nombre de dés
+
+- Sélectionnable de **1** à **20**
+- Valeur initiale : **3**
+
 ## États
 
 ### 1. État initial (avant un roll, ou après un reset)

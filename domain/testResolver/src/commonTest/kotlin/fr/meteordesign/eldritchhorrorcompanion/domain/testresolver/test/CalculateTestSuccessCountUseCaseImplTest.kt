@@ -4,9 +4,9 @@ import fr.meteordesign.eldritchhorrorcompanion.domain.testresolver.test.model.St
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class CalculateTestSuccessCountUseCaseTest {
+class CalculateTestSuccessCountUseCaseImplTest {
 
-    private val calculateTestSuccessCountUseCase = CalculateTestSuccessCountUseCase()
+    private val calculateTestSuccessCountUseCase = CalculateTestSuccessCountUseCaseImpl()
 
     @Test
     fun `invoke returns 0 when rolls is empty`() {
@@ -14,7 +14,7 @@ class CalculateTestSuccessCountUseCaseTest {
         val expected = 0
 
         // When
-        val actual = calculateTestSuccessCountUseCase(rolls = emptyList(), status = Status.NONE)
+        val actual = calculateTestSuccessCountUseCase(status = Status.None, rolls = emptyList())
 
         // Then
         assertEquals(expected, actual)
@@ -27,7 +27,7 @@ class CalculateTestSuccessCountUseCaseTest {
         val expected = 0
 
         // When
-        val actual = calculateTestSuccessCountUseCase(rolls = rolls, status = Status.CURSED)
+        val actual = calculateTestSuccessCountUseCase(status = Status.None, rolls = rolls)
 
         // Then
         assertEquals(expected, actual)
@@ -40,7 +40,7 @@ class CalculateTestSuccessCountUseCaseTest {
         val expected = 1
 
         // When
-        val actual = calculateTestSuccessCountUseCase(rolls = rolls, status = Status.CURSED)
+        val actual = calculateTestSuccessCountUseCase(status = Status.Cursed, rolls = rolls)
 
         // Then
         assertEquals(expected, actual)
@@ -53,7 +53,7 @@ class CalculateTestSuccessCountUseCaseTest {
         val expected = 2
 
         // When
-        val actual = calculateTestSuccessCountUseCase(rolls = rolls, status = Status.NONE)
+        val actual = calculateTestSuccessCountUseCase(status = Status.None, rolls = rolls)
 
         // Then
         assertEquals(expected, actual)
@@ -66,7 +66,7 @@ class CalculateTestSuccessCountUseCaseTest {
         val expected = 3
 
         // When
-        val actual = calculateTestSuccessCountUseCase(rolls = rolls, status = Status.BLESSED)
+        val actual = calculateTestSuccessCountUseCase(status = Status.Blessed, rolls = rolls)
 
         // Then
         assertEquals(expected, actual)

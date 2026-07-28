@@ -4,32 +4,19 @@ import androidx.lifecycle.ViewModel
 import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metrox.viewmodel.ViewModelKey
-import eldritchhorrorcompanion.features.core.generated.resources.Res
-import eldritchhorrorcompanion.features.core.generated.resources.test_resolver_reroll_cta
-import eldritchhorrorcompanion.features.core.generated.resources.test_resolver_roll_cta
 import fr.meteordesign.eldritchhorrorcompanion.domain.core.utils.AppScope
 import fr.meteordesign.eldritchhorrorcompanion.domain.core.utils.Result
 import fr.meteordesign.eldritchhorrorcompanion.domain.testresolver.test.RerollTestUseCase
 import fr.meteordesign.eldritchhorrorcompanion.domain.testresolver.test.ResolveTestUseCase
-import fr.meteordesign.eldritchhorrorcompanion.domain.testresolver.test.model.Status as DomainStatus
-import fr.meteordesign.eldritchhorrorcompanion.features.testresolver.TestResolverUiModel.Configuration.Status
-import fr.meteordesign.eldritchhorrorcompanion.features.testresolver.TestResolverUiModel.TestResult
+import fr.meteordesign.eldritchhorrorcompanion.features.testresolver.mapper.IndicesToRerollMapper
+import fr.meteordesign.eldritchhorrorcompanion.features.testresolver.mapper.StatusMapper
+import fr.meteordesign.eldritchhorrorcompanion.features.testresolver.mapper.TestResultMapper
+import fr.meteordesign.eldritchhorrorcompanion.features.testresolver.model.TestResolverUiModel
+import fr.meteordesign.eldritchhorrorcompanion.features.testresolver.model.TestResolverUiModel.Configuration.Status
+import fr.meteordesign.eldritchhorrorcompanion.features.testresolver.model.TestResolverUiModel.TestResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
-
-private val Status.domainStatus: DomainStatus
-    get() = when (this) {
-        Status.Cursed -> DomainStatus.CURSED
-        Status.None -> DomainStatus.NONE
-        Status.Blessed -> DomainStatus.BLESSED
-    }
-
-private fun List<Int>.toDice(): List<TestResult.Die> =
-    map { roll -> TestResult.Die(roll = roll, selected = false) }
-
-private val TestResult.indicesToReroll: Set<Int>
-    get() = dice.withIndex().filter { (_, die) -> die.selected }.map { (index, _) -> index }.toSet()
 
 @Inject
 @ViewModelKey
@@ -37,118 +24,109 @@ private val TestResult.indicesToReroll: Set<Int>
 class TestResolverViewModel(
     private val resolveTestUseCase: ResolveTestUseCase,
     private val rerollTestUseCase: RerollTestUseCase,
+    private val statusMapper: StatusMapper,
+    private val testResultMapper: TestResultMapper,
+    private val indicesToRerollMapper: IndicesToRerollMapper,
 ) : ViewModel() {
 
-    private val _uiModelFlow = MutableStateFlow(TestResolverUiModel())
     val uiModelFlow: StateFlow<TestResolverUiModel>
-        get() = _uiModelFlow
+        field = MutableStateFlow(TestResolverUiModel())
 
     fun onStatusSelected(status: Status) {
-        _uiModelFlow.update { uiModel ->
+        uiModelFlow.update { uiModel ->
             uiModel.copy(
                 configuration = uiModel.configuration.copy(selectedStatus = status),
                 testResult = null,
-                rollEnabled = true,
-                rollLabel = Res.string.test_resolver_roll_cta,
             )
         }
     }
 
     fun onIncrementDiceCount() {
-        _uiModelFlow.update { uiModel ->
+        uiModelFlow.update { uiModel ->
             uiModel.copy(
-                configuration = uiModel.configuration.copy(diceCount = uiModel.configuration.diceCount + 1),
+                configuration = uiModel.configuration.copy(
+                    diceCount = (uiModel.configuration.diceCount + 1)
+                        .coerceAtMost(MaxDiceCount),
+                ),
                 testResult = null,
-                rollEnabled = true,
-                rollLabel = Res.string.test_resolver_roll_cta,
             )
         }
     }
 
     fun onDecrementDiceCount() {
-        _uiModelFlow.update { uiModel ->
+        uiModelFlow.update { uiModel ->
             uiModel.copy(
                 configuration = uiModel.configuration.copy(
-                    diceCount = (uiModel.configuration.diceCount - 1).coerceAtLeast(MinDiceCount),
+                    diceCount = (uiModel.configuration.diceCount - 1)
+                        .coerceAtLeast(MinDiceCount),
                 ),
                 testResult = null,
-                rollEnabled = true,
-                rollLabel = Res.string.test_resolver_roll_cta,
             )
         }
     }
 
     fun onDieClick(index: Int) {
-        _uiModelFlow.update { uiModel ->
+        uiModelFlow.update { uiModel ->
             val testResult = uiModel.testResult ?: return@update uiModel
             val dice = testResult.dice.mapIndexed { i, die ->
-                if (i == index) die.copy(selected = !die.selected) else die
+                when (i) {
+                    index -> die.copy(selected = !die.selected)
+                    else -> die
+                }
             }
 
-            uiModel.copy(
-                testResult = testResult.copy(dice = dice),
-                rollEnabled = dice.any { it.selected },
-            )
+            uiModel.copy(testResult = testResult.copy(dice = dice))
         }
     }
 
     fun onClearClick() {
-        _uiModelFlow.update { uiModel ->
-            uiModel.copy(
-                testResult = null,
-                rollEnabled = true,
-                rollLabel = Res.string.test_resolver_roll_cta,
-            )
+        uiModelFlow.update { uiModel ->
+            uiModel.copy(testResult = null)
         }
     }
 
     fun onRollDiceClick() {
-        val uiModel = _uiModelFlow.value
+        val uiModel = uiModelFlow.value
         val previousTestResult = uiModel.testResult
 
-        if (previousTestResult == null) {
-            when (
-                val result =
-                    resolveTestUseCase(
-                        diceCount = uiModel.configuration.diceCount,
-                        status = uiModel.configuration.selectedStatus.domainStatus,
-                    )
-            ) {
-                is Result.Success -> {
-                    _uiModelFlow.update {
-                        it.copy(
-                            testResult = TestResult(
-                                dice = result.value.rolls.toDice(),
-                                successCount = result.value.successCount,
-                            ),
-                            rollEnabled = false,
-                            rollLabel = Res.string.test_resolver_reroll_cta,
-                        )
-                    }
-                }
+        when (previousTestResult) {
+            null -> roll(uiModel)
+            else -> reroll(uiModel, previousTestResult)
+        }
+    }
 
-                is Result.Failure -> Unit
-            }
-        } else {
-            val result = rerollTestUseCase(
-                previousRolls = previousTestResult.dice.map { it.roll },
-                indicesToReroll = previousTestResult.indicesToReroll,
-                status = uiModel.configuration.selectedStatus.domainStatus,
-            )
-
-            _uiModelFlow.update {
-                it.copy(
-                    testResult = TestResult(
-                        dice = result.rolls.toDice(),
-                        successCount = result.successCount,
-                    ),
-                    rollEnabled = false,
+    private fun roll(uiModel: TestResolverUiModel) {
+        when (
+            val result =
+                resolveTestUseCase(
+                    status = statusMapper.map(uiModel.configuration.selectedStatus),
+                    diceCount = uiModel.configuration.diceCount,
                 )
+        ) {
+            is Result.Success -> {
+                uiModelFlow.update {
+                    it.copy(testResult = testResultMapper.map(result.value))
+                }
             }
+
+            is Result.Failure -> Unit
+        }
+    }
+
+    private fun reroll(uiModel: TestResolverUiModel, previousTestResult: TestResult) {
+        val result = rerollTestUseCase(
+            status = statusMapper.map(uiModel.configuration.selectedStatus),
+            previousRolls = previousTestResult.dice.map { it.roll },
+            indicesToReroll = indicesToRerollMapper.map(previousTestResult),
+        )
+
+        uiModelFlow.update {
+            it.copy(testResult = testResultMapper.map(result))
         }
     }
 
     private companion object {
         const val MinDiceCount = 1
+        const val MaxDiceCount = 20
     }
 }

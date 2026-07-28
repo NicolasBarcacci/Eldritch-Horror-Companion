@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.metro)
+    alias(libs.plugins.mokkery)
 }
 
 kotlin {
@@ -67,6 +68,7 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+            implementation(libs.mokkery.runtime)
         }
     }
 }

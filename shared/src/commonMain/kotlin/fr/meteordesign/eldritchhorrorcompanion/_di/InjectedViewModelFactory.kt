@@ -9,8 +9,8 @@ import dev.zacsweers.metrox.viewmodel.ViewModelAssistedFactory
 import fr.meteordesign.eldritchhorrorcompanion.domain.core.utils.AppScope
 import kotlin.reflect.KClass
 
-@ContributesBinding(AppScope::class)
 @Inject
+@ContributesBinding(AppScope::class)
 class InjectedViewModelFactory(
     override val viewModelProviders: Map<KClass<out ViewModel>, () -> ViewModel>,
     override val assistedFactoryProviders: Map<KClass<out ViewModel>, () -> ViewModelAssistedFactory>,

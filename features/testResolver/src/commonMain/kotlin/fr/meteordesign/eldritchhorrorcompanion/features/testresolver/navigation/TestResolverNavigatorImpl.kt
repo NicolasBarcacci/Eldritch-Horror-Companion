@@ -11,8 +11,8 @@ import fr.meteordesign.eldritchhorrorcompanion.features.testresolver.view.TestRe
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 
-@ContributesBinding(AppScope::class)
 @Inject
+@ContributesBinding(AppScope::class)
 class TestResolverNavigatorImpl : TestResolverNavigator {
 
     override fun EntryProviderScope<NavKey>.entry() {

@@ -2,6 +2,7 @@
     <string name="status_cursed">Cursed</string>
     <string name="status_none">None</string>
     <string name="status_blessed">Blessed</string>
+    <string name="test_resolver_title">Test Resolver</string>
     <string name="test_resolver_roll_cta">Roll</string>
     <string name="test_resolver_reroll_cta">Reroll</string>
     <string name="test_resolver_clear_cta">Clear</string>

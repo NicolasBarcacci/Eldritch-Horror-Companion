@@ -19,6 +19,7 @@ import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,20 +28,25 @@ import androidx.compose.ui.unit.dp
 import eldritchhorrorcompanion.designsystem.core.generated.resources.ic_lock_closed
 import eldritchhorrorcompanion.designsystem.core.generated.resources.ic_lock_opened
 import eldritchhorrorcompanion.features.core.generated.resources.Res
+import eldritchhorrorcompanion.features.core.generated.resources.status_blessed
+import eldritchhorrorcompanion.features.core.generated.resources.status_cursed
+import eldritchhorrorcompanion.features.core.generated.resources.status_none
 import eldritchhorrorcompanion.features.core.generated.resources.test_resolver_clear_cta
-import eldritchhorrorcompanion.features.core.generated.resources.test_resolver_reroll_cta
 import eldritchhorrorcompanion.features.core.generated.resources.test_resolver_successes_count
+import eldritchhorrorcompanion.features.core.generated.resources.test_resolver_title
 import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.button.EhcButtonPrimary
 import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.button.EhcButtonSecondary
 import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.scaffold.EhcScaffold
 import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.theme.EhcTheme
 import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.utils.ehcFillMaxSize
-import fr.meteordesign.eldritchhorrorcompanion.features.testresolver.TestResolverUiModel
-import fr.meteordesign.eldritchhorrorcompanion.features.testresolver.TestResolverUiModel.Configuration.Status
-import fr.meteordesign.eldritchhorrorcompanion.features.testresolver.TestResolverUiModel.TestResult
+import fr.meteordesign.eldritchhorrorcompanion.features.testresolver.model.TestResolverUiModel
+import fr.meteordesign.eldritchhorrorcompanion.features.testresolver.model.TestResolverUiModel.Configuration.Status
+import fr.meteordesign.eldritchhorrorcompanion.features.testresolver.model.TestResolverUiModel.TestResult
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import eldritchhorrorcompanion.designsystem.core.generated.resources.Res as DesignSystemRes
+
+private const val MaxDicePerRow = 5
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,6 +62,11 @@ fun TestResolverContent(
 ) {
     EhcScaffold(
         modifier = modifier,
+        topBar = {
+            TopAppBar(
+                title = { Text(stringResource(Res.string.test_resolver_title)) },
+            )
+        },
     ) { paddingValues ->
         Column(
             modifier
@@ -75,7 +86,15 @@ fun TestResolverContent(
                         selected = uiModel.configuration.selectedStatus == status,
                         onClick = { onStatusSelected(status) },
                     ) {
-                        Text(stringResource(status.label))
+                        Text(
+                            stringResource(
+                                when (status) {
+                                    Status.Blessed -> Res.string.status_blessed
+                                    Status.Cursed -> Res.string.status_cursed
+                                    Status.None -> Res.string.status_none
+                                },
+                            ),
+                        )
                     }
                 }
             }
@@ -108,14 +127,15 @@ fun TestResolverContent(
 
                 FlowRow(
                     modifier = Modifier.align(Alignment.Center),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+                    maxItemsInEachRow = MaxDicePerRow,
                 ) {
-                    if (result == null) {
-                        repeat(uiModel.configuration.diceCount) {
+                    when (result) {
+                        null -> repeat(uiModel.configuration.diceCount) {
                             DieFace(text = "?")
                         }
-                    } else {
-                        result.dice.forEachIndexed { index, die ->
+
+                        else -> result.dice.forEachIndexed { index, die ->
                             DieFace(
                                 text = "${die.roll}",
                                 selected = die.selected,
@@ -173,11 +193,20 @@ private fun DieFace(
         modifier = modifier
             .size(48.dp)
             .let { boxModifier ->
-                if (onClick != null) boxModifier.clickable(onClick = onClick) else boxModifier
+                when {
+                    onClick != null -> boxModifier.clickable(onClick = onClick)
+                    else -> boxModifier
+                }
             }
             .border(
-                width = if (selected) 2.dp else 1.dp,
-                color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline,
+                width = when {
+                    selected -> 2.dp
+                    else -> 1.dp
+                },
+                color = when {
+                    selected -> MaterialTheme.colorScheme.primary
+                    else -> MaterialTheme.colorScheme.outline
+                },
             ),
         contentAlignment = Alignment.Center,
     ) {
@@ -190,7 +219,10 @@ private fun DieFace(
                     .padding(2.dp)
                     .size(12.dp),
                 painter = painterResource(
-                    if (selected) DesignSystemRes.drawable.ic_lock_opened else DesignSystemRes.drawable.ic_lock_closed,
+                    when {
+                        selected -> DesignSystemRes.drawable.ic_lock_opened
+                        else -> DesignSystemRes.drawable.ic_lock_closed
+                    },
                 ),
                 contentDescription = null,
             )
@@ -239,7 +271,6 @@ private fun TestResolverContentAfterRollPreview() {
                     ),
                     successCount = 2,
                 ),
-                rollLabel = Res.string.test_resolver_reroll_cta,
             ),
             onStatusSelected = {},
             onIncrementDiceCount = {},

@@ -12,12 +12,12 @@ import fr.meteordesign.eldritchhorrorcompanion.domain.testresolver.test.model.Te
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ResolveTestUseCaseTest {
+class ResolveTestUseCaseImplTest {
 
     private val rollD6UseCase = mock<RollD6UseCase>()
     private val calculateTestSuccessCountUseCase = mock<CalculateTestSuccessCountUseCase>()
 
-    private val resolveTestUseCase = ResolveTestUseCase(rollD6UseCase, calculateTestSuccessCountUseCase)
+    private val resolveTestUseCase = ResolveTestUseCaseImpl(rollD6UseCase, calculateTestSuccessCountUseCase)
 
     @Test
     fun `invoke returns failure when diceCount is less than 1`() {
@@ -27,7 +27,7 @@ class ResolveTestUseCaseTest {
         )
 
         // When
-        val actual = resolveTestUseCase(diceCount = 0, status = Status.NONE)
+        val actual = resolveTestUseCase(status = Status.None, diceCount = 0)
 
         // Then
         assertEquals(expected, actual)
@@ -37,13 +37,13 @@ class ResolveTestUseCaseTest {
     fun `invoke succeeds when diceCount is exactly 1`() {
         // Given
         every { rollD6UseCase() } returns 6
-        every { calculateTestSuccessCountUseCase(rolls = listOf(6), status = Status.NONE) } returns 1
+        every { calculateTestSuccessCountUseCase(status = Status.None, rolls = listOf(6)) } returns 1
         val expected = Result.Success(
             TestResult(rolls = listOf(6), successCount = 1),
         )
 
         // When
-        val actual = resolveTestUseCase(diceCount = 1, status = Status.NONE)
+        val actual = resolveTestUseCase(status = Status.None, diceCount = 1)
 
         // Then
         assertEquals(expected, actual)
@@ -55,13 +55,13 @@ class ResolveTestUseCaseTest {
         // Given
         val rolls = listOf(1, 2, 3)
         every { rollD6UseCase() } sequentiallyReturns rolls
-        every { calculateTestSuccessCountUseCase(rolls = rolls, status = Status.NONE) } returns 0
+        every { calculateTestSuccessCountUseCase(status = Status.None, rolls = rolls) } returns 0
         val expected = Result.Success(
             TestResult(rolls = rolls, successCount = 0),
         )
 
         // When
-        val actual = resolveTestUseCase(diceCount = 3, status = Status.NONE)
+        val actual = resolveTestUseCase(status = Status.None, diceCount = 3)
 
         // Then
         assertEquals(expected, actual)
@@ -72,13 +72,13 @@ class ResolveTestUseCaseTest {
         // Given
         val rolls = listOf(1, 2, 3, 4, 5, 6)
         every { rollD6UseCase() } sequentiallyReturns rolls
-        every { calculateTestSuccessCountUseCase(rolls = rolls, status = Status.NONE) } returns 2
+        every { calculateTestSuccessCountUseCase(status = Status.None, rolls = rolls) } returns 2
         val expected = Result.Success(
             TestResult(rolls = rolls, successCount = 2),
         )
 
         // When
-        val actual = resolveTestUseCase(diceCount = 6, status = Status.NONE)
+        val actual = resolveTestUseCase(status = Status.None, diceCount = 6)
 
         // Then
         assertEquals(expected, actual)
@@ -89,13 +89,13 @@ class ResolveTestUseCaseTest {
         // Given
         val rolls = listOf(1, 2, 3, 4, 5, 6)
         every { rollD6UseCase() } sequentiallyReturns rolls
-        every { calculateTestSuccessCountUseCase(rolls = rolls, status = Status.BLESSED) } returns 3
+        every { calculateTestSuccessCountUseCase(status = Status.Blessed, rolls = rolls) } returns 3
         val expected = Result.Success(
             TestResult(rolls = rolls, successCount = 3),
         )
 
         // When
-        val actual = resolveTestUseCase(diceCount = 6, status = Status.BLESSED)
+        val actual = resolveTestUseCase(status = Status.Blessed, diceCount = 6)
 
         // Then
         assertEquals(expected, actual)
@@ -106,13 +106,13 @@ class ResolveTestUseCaseTest {
         // Given
         val rolls = listOf(1, 2, 3, 4, 5, 6)
         every { rollD6UseCase() } sequentiallyReturns rolls
-        every { calculateTestSuccessCountUseCase(rolls = rolls, status = Status.CURSED) } returns 1
+        every { calculateTestSuccessCountUseCase(status = Status.Cursed, rolls = rolls) } returns 1
         val expected = Result.Success(
             TestResult(rolls = rolls, successCount = 1),
         )
 
         // When
-        val actual = resolveTestUseCase(diceCount = 6, status = Status.CURSED)
+        val actual = resolveTestUseCase(status = Status.Cursed, diceCount = 6)
 
         // Then
         assertEquals(expected, actual)
