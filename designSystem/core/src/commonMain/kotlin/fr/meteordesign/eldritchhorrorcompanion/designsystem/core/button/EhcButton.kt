@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedButton
@@ -17,12 +16,13 @@ import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchA
 import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchBrightInk
 import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchDisabledBackground
 import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.color.EldritchMutedInk
+import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.shapes.EhcButtonPrimaryShape
 import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.text.EhcText
 import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.text.EhcTextStyle
 import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.text.EhcTextValue
 import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.theme.EhcTheme
+import fr.meteordesign.eldritchhorrorcompanion.designsystem.core.utils.onlyIf
 
-private val EhcButtonPrimaryShape = RoundedCornerShape(50)
 
 @Composable
 fun EhcButtonPrimary(
@@ -33,16 +33,15 @@ fun EhcButtonPrimary(
 ) {
     Button(
         onClick = onClick,
-        modifier = when {
-            enabled -> modifier.shadow(
-                elevation = 12.dp,
-                shape = EhcButtonPrimaryShape,
-                ambientColor = EldritchArcanePurple,
-                spotColor = EldritchArcanePurple,
-            )
-
-            else -> modifier
-        },
+        modifier = modifier
+            .onlyIf(enabled) {
+                shadow(
+                    elevation = 12.dp,
+                    shape = EhcButtonPrimaryShape,
+                    ambientColor = EldritchArcanePurple,
+                    spotColor = EldritchArcanePurple,
+                )
+            },
         enabled = enabled,
         shape = EhcButtonPrimaryShape,
         colors = ButtonDefaults.buttonColors(

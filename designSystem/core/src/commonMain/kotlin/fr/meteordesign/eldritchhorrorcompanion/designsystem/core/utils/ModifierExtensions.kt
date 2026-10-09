@@ -16,3 +16,9 @@ fun Modifier.ehcFillMaxSize(): Modifier =
     this
         .ehcFillMaxWidth()
         .ehcFillMaxHeigh()
+
+fun Modifier.onlyIf(condition: Boolean, actions: Modifier.() -> Modifier): Modifier =
+    when {
+        condition -> this.actions()
+        else -> this
+    }
